@@ -22,7 +22,6 @@ package Classwork.Lists;
  *
  */
 
-
 public interface ListInterface<I extends Comparable<? super I>> {
 	
 
@@ -32,7 +31,7 @@ public interface ListInterface<I extends Comparable<? super I>> {
 	 * 
 	 * @return a copy of the list.
 	 */
-	ListInterface<I> copy();
+	public ListInterface<I> copy();
 
 	
 	
@@ -42,7 +41,7 @@ public interface ListInterface<I extends Comparable<? super I>> {
 	 * @return 	Returns the numbers of <b>Element</b>s that are currently in the list.
 	 */
 	
-	int size();
+	public int size();
 
 	
 	
@@ -52,7 +51,7 @@ public interface ListInterface<I extends Comparable<? super I>> {
 	 * @return 	Returns <b>true</b> if the list is empty, otherwise it returns <b>false</b>. 
 	 */
 	
-	boolean isEmpty();
+	public boolean isEmpty();
 
 	
 	
@@ -65,7 +64,7 @@ public interface ListInterface<I extends Comparable<? super I>> {
 	 * 
 	 * @see		java.lang.Comparable
 	 */
-	 void add(I element);
+	public void add(I element);
 	
 	
 	
@@ -105,7 +104,7 @@ public interface ListInterface<I extends Comparable<? super I>> {
 	 * 
 	 * @see		java.lang.Comparable
 	 */
-	void add(I element, int index) throws IndexOutOfBoundsException;
+	public void add(I element, int index) throws IndexOutOfBoundsException; 
 	
 	
 
@@ -121,7 +120,7 @@ public interface ListInterface<I extends Comparable<? super I>> {
 	 * 
 	 * @see		java.lang.Comparable
 	 */
-	void addSorted(I element);
+	public void addSorted(I element);
 	
 	
 	
@@ -138,7 +137,7 @@ public interface ListInterface<I extends Comparable<? super I>> {
 	 * @return	Returns a reference to the <b>Element</b> at the given index.
 	 * 
 	 */
-	I get(int index) throws IndexOutOfBoundsException;
+	public I get(int index) throws IndexOutOfBoundsException;
 		
 	
 	
@@ -160,7 +159,7 @@ public interface ListInterface<I extends Comparable<? super I>> {
 	 * @return			If the replacement is successful, the method will return a reference to the replaced
 	 * 					element at the specified index.
 	 */
-	I replace(I element, int index) throws IndexOutOfBoundsException;
+	public I replace(I element, int index) throws IndexOutOfBoundsException;
 
 	
 	
@@ -177,13 +176,13 @@ public interface ListInterface<I extends Comparable<? super I>> {
 	 * @return			If the remove is successful, the method will return a reference to the removed
 	 * 					element at the specified index.
 	 */
-	I remove(int index) throws IndexOutOfBoundsException;
+	public I remove(int index) throws IndexOutOfBoundsException;
 
 	
 	
 	/**
 	 * This method removes all Elements from the list, making the list empty.
 	 */
-	void removeAll();
+	public void removeAll();
 	
 }

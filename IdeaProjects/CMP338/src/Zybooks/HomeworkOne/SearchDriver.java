@@ -4,14 +4,14 @@ import java.util.Arrays;
 
 public class SearchDriver implements SearchDriverInterface{
     public static void main(String[] args) {
-        TestTimes testTimes = new TestTimes();
+        TestTime testTime = new TestTime();
         for (int i = 30; i < 83; i++) {
-            testTimes.addTestTime(i);
+            testTime.addTestTime(i);
         }
         LinearSearch linearSearch = new LinearSearch();
         BinarySearch binarySearch = new BinarySearch();
-        System.out.println(testTimes.getLastTestTime());
-        testTimes.getTestTimes();
+        System.out.println(testTime.getLastTestTime());
+        testTime.getTestTimes();
         SearchDriver searchDriver = new SearchDriver();
         System.out.println(Arrays.toString(searchDriver.getListOfNumbers()));
         int[] listOfNumbers = searchDriver.getListOfNumbers();
@@ -33,30 +33,30 @@ public class SearchDriver implements SearchDriverInterface{
     }
 
     @Override
-    public TestTimes runLinearSearch(int[] listOfNumbers, int target, int numberOfTimes) {
-        TestTimes testTimes = new TestTimes();
+    public TestTime runLinearSearch(int[] listOfNumbers, int target, int numberOfTimes) {
+        TestTime testTime = new TestTime();
         LinearSearch search = new LinearSearch();
         for (int i = 0; i < numberOfTimes; i++) {
             long startTime = System.nanoTime();
             int index = search.search(listOfNumbers, target);
             long endTime = System.nanoTime();
             long runTime = endTime - startTime;
-            testTimes.addTestTime(runTime);
+            testTime.addTestTime(runTime);
         }
-        return testTimes;
+        return testTime;
     }
 
     @Override
-    public TestTimes runBinarySearch(int[] listOfNumbers, int target, int numberOfTimes) {
-        TestTimes testTimes = new TestTimes();
+    public TestTime runBinarySearch(int[] listOfNumbers, int target, int numberOfTimes) {
+        TestTime testTime = new TestTime();
         BinarySearch search = new BinarySearch();
         for (int i = 0; i < numberOfTimes; i++) {
             long startTime = System.nanoTime();
             int index = search.search(listOfNumbers, target);
             long endTime = System.nanoTime();
             long runTime = endTime - startTime;
-            testTimes.addTestTime(runTime);
+            testTime.addTestTime(runTime);
         }
-        return testTimes;
+        return testTime;
     }
 }

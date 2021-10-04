@@ -8,27 +8,18 @@ public class BetterArray<E extends Comparable <? super E>> implements ListInterf
 	private Object[] array;
 	private int numElements = 0;
 
-	public BetterArray() {
-		this.array = new Object[DEFAULT_ARRAY_SIZE];
-	}
+	public BetterArray() { array = new Object[DEFAULT_ARRAY_SIZE]; }
 	
 	public BetterArray(int initialSize) {
-		if (initialSize < 0) {
-			this.array = new Object[DEFAULT_ARRAY_SIZE];
-		} else {
-			this.array = new Object[initialSize];
-		}
+		if (initialSize < 0) { array = new Object[DEFAULT_ARRAY_SIZE]; }
+		else { array = new Object[initialSize]; }
 	}
 	
 	@Override
-	public int size() {
-		return this.numElements;
-	}
+	public int size() { return numElements; }
 	
 	@Override
-	public boolean isEmpty() {
-		return (this.numElements == 0);
-	}
+	public boolean isEmpty() { return numElements == 0; }
 	
 	@Override
 	public ListInterface<E> copy() {
@@ -38,35 +29,25 @@ public class BetterArray<E extends Comparable <? super E>> implements ListInterf
 	
 	@Override
 	public void add(E element) {
-		if (numElements == array.length ) {
-			this.makeArrayBigger();
-		}
-		this.array[numElements++] = element;
+		if (numElements == array.length ) { makeArrayBigger(); }
+		array[numElements++] = element;
 	}
 	
 	@Override
 	public void add(E element, int index) throws IndexOutOfBoundsException {
-		if (index < 0) {
-			throw new IndexOutOfBoundsException("index = " + index + " is invalid");
-		}
+		if (index < 0) { throw new IndexOutOfBoundsException("index = " + index + " is invalid"); }
 		
-		if (index <= this.numElements) {
-			if (index == this.numElements) {
-				this.add(element);
-			} else {
-				if (this.numElements == this.array.length) {
-					this.makeArrayBigger();
-				}
-
-				if (this.numElements - index >= 0)
-					System.arraycopy(this.array, index, this.array, index + 1, this.numElements - index);
-				this.array[index] = element;
-				this.numElements++;
+		if (index <= numElements) {
+			if (index == numElements) { add(element); }
+			else {
+				if (numElements == array.length) { makeArrayBigger(); }
+				if (numElements - index >= 0)
+					System.arraycopy(array, index, array, index + 1, numElements - index);
+				array[index] = element;
+				numElements++;
 			}
-		} else {
-			throw new IndexOutOfBoundsException("index = " + index + 
-							" is invalid for an array with only " + this.numElements + " elements");
-		}
+		} else { throw new IndexOutOfBoundsException("index = " + index +
+							" is invalid for an array with only " + numElements + " elements"); }
 	}
 	
 	@Override
@@ -82,53 +63,46 @@ public class BetterArray<E extends Comparable <? super E>> implements ListInterf
 	
 	@Override
 	public E get(int index) throws IndexOutOfBoundsException {
-		if ((index >= 0) && (index < this.numElements)) {
-			return (E) this.array[index];
-		} else {
-			throw new IndexOutOfBoundsException("index = " + index + 
-							" is invalid for an array with only " + this.numElements + " elements");
-		}
+		if ((index >= 0) && (index < this.numElements)) { return (E) array[index]; }
+		else { throw new IndexOutOfBoundsException("index = " + index +
+							" is invalid for an array with only " + numElements + " elements"); }
 	}
 
 	@Override
 	public E remove(int index) throws IndexOutOfBoundsException {
-		if ((index < 0) || (index >= this.numElements)) {
-			throw new IndexOutOfBoundsException("index = " + index + 
-					" is invalid for an array with only " + this.numElements + " elements");
-		} else {
-			E oldElement = (E) this.array[index];
-			if (this.numElements - 1 - index >= 0)
-				System.arraycopy(this.array, index + 1, this.array, index, this.numElements - 1 - index);
-			this.numElements--;
+		if ((index < 0) || (index >= numElements)) { throw new IndexOutOfBoundsException("index = " + index +
+					" is invalid for an array with only " + numElements + " elements"); }
+		else {
+			E oldElement = (E) array[index];
+			if (numElements - 1 - index >= 0)
+				System.arraycopy(array, index + 1, array, index, numElements - 1 - index);
+			numElements--;
 			return oldElement;
 		}
 	}
 	
 	@Override
 	public void removeAll() {
-		Arrays.fill(this.array, null);
-		this.numElements = 0;
+		Arrays.fill(array, null);
+		numElements = 0;
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder output = new StringBuilder("array = [");
 		
-		for ( int i = 0 ; i < this.numElements ; i++ ) {
+		for ( int i = 0 ; i < numElements ; i++ ) {
 			output.append(this.array[i]);
-			if ( i != this.numElements - 1) {
-				output.append(", ");
-			} else {
-				output.append("]");
-			}
+			if ( i != numElements - 1) { output.append(", "); }
+			else { output.append("]"); }
 		}
 		return output.toString();
 	}
 	
 	private void makeArrayBigger() {
-		Object[] biggerArray = new Object[this.array.length * 2];
-		System.arraycopy(this.array, 0, biggerArray, 0, this.array.length);
-		this.array = biggerArray;
+		Object[] biggerArray = new Object[array.length * 2];
+		System.arraycopy(this.array, 0, biggerArray, 0, array.length);
+		array = biggerArray;
 	}
 	
 	

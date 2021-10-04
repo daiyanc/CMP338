@@ -6,13 +6,13 @@ public class LinkedListNode<E extends Comparable <? super E>> {
 	private LinkedListNode<E> next;
 	
 	public LinkedListNode() {
-		this.element = null;
-		this.next = null;
+		element = null;
+		next = null;
 	}
 	
 	public LinkedListNode(E element) {
 		this.element = element;
-		this.next = null;
+		next = null;
 	}
 
 	public E getElement() {

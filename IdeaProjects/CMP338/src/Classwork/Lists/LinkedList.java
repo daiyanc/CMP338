@@ -7,9 +7,9 @@ public class LinkedList<E extends Comparable <? super E>> implements ListInterfa
 	private int numElements;
 	
 	public LinkedList() {
-		this.head = null;
-		this.tail = null;
-		this.numElements = 0;
+		head = null;
+		tail = null;
+		numElements = 0;
 	}
 	
 	@Override
@@ -20,26 +20,26 @@ public class LinkedList<E extends Comparable <? super E>> implements ListInterfa
 
 	@Override
 	public int size() {
-		return this.numElements;
+		return numElements;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return (this.numElements == 0);
+		return (numElements == 0);
 	}
 
 	@Override
 	public void add(E element) {
-		LinkedListNode<E> newNode = new LinkedListNode<>(element);
+		LinkedListNode<E> newNode = new LinkedListNode(element);
 
-		if (this.isEmpty()) {
-			this.head = newNode;
-			this.tail = newNode;
-			this.numElements = 1;
+		if (isEmpty()) {
+			head = newNode;
+			tail = newNode;
+			numElements = 1;
 		} else {
 			tail.setNext(newNode);
 			tail = newNode;
-			this.numElements++;
+			numElements++;
 		}
 	}
 	
@@ -49,26 +49,33 @@ public class LinkedList<E extends Comparable <? super E>> implements ListInterfa
 			throw new IndexOutOfBoundsException("index = " + index + " is invalid");
 		}
 		
-		if (index <= this.numElements) {
-			LinkedListNode<E> newNode = new LinkedListNode<>(element);
+		if (index <= numElements) {
+			LinkedListNode<E> newNode = new LinkedListNode(element);
 
-			if (index == this.numElements) {
+			if (index == numElements) {
 				this.add(element);
 			} else {
-				LinkedListNode<E> curNode = this.head;
+				LinkedListNode<E> curNode = head;
 				int curIndex = 0;
 				
-				while (curIndex < index - 1) {
-					curNode = curNode.getNext();
-					curIndex++;
+				if (index == 0) {
+					newNode.setNext(head);
+					head = newNode;
+				} else {
+					while (curIndex < index - 1) {
+						curNode = curNode.getNext();
+						curIndex++;
+					}
+					newNode.setNext(curNode.getNext());
+					curNode.setNext(newNode);
 				}
-				newNode.setNext(curNode.getNext());
-				curNode.setNext(newNode);
-				this.numElements++;
+				
+				
+				numElements++;
 			}
 		} else {
 			throw new IndexOutOfBoundsException("index = " + index + 
-							" is invalid for an array with only " + this.numElements + " elements");
+							" is invalid for an array with only " + numElements + " elements");
 		}
 	}
 
@@ -78,27 +85,28 @@ public class LinkedList<E extends Comparable <? super E>> implements ListInterfa
 		
 	}
 
-	// curIndex  3
-	// curNode                     *
-	//           0     1     2     3     4
-	//    H --> a|--> b|--> e|--> c|--> d|x
-	//    T -----------------------------^
-	// numElements = 4
 	@Override
 	public E get(int index) throws IndexOutOfBoundsException {
-		if ((index >= 0) && (index < this.numElements)) {
-			LinkedListNode<E> curNode = this.head;
+		if ((index >= 0) && (index < numElements)) {
+			LinkedListNode<E> curNode = head;
 			int curIndex = 0;
 			
-			while (curIndex < index) {
-				curNode = curNode.getNext();
-				curIndex++;
-			}
+			if (index == 0) {
+				return head.getElement();
+			} else if (index == numElements - 1) {
+				return tail.getElement();
+			} else {
+				while (curIndex < index) {
+					curNode = curNode.getNext();
+					curIndex++;
+				}
 
-			return curNode.getElement();
+				return curNode.getElement();
+			}
+			
 		} else {
 			throw new IndexOutOfBoundsException("index = " + index + 
-							" is invalid for an array with only " + this.numElements + " elements");
+							" is invalid for an array with only " + numElements + " elements");
 		}
 	}
 
@@ -110,15 +118,108 @@ public class LinkedList<E extends Comparable <? super E>> implements ListInterfa
 
 	@Override
 	public E remove(int index) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+		if ((index >= 0) && (index < this.numElements)) {
+			LinkedListNode<E> prevNode = null;
+			LinkedListNode<E> curNode = head;
+			int curIndex = 0;
+			E removedElement;
+
+			if (index == 0) {
+				removedElement = head.getElement();
+				head = head.getNext();
+			} else {
+				while (curIndex != index) {
+					prevNode = curNode;
+					curNode = curNode.getNext();
+					curIndex++;
+				}
+				
+				removedElement = curNode.getElement();
+				
+				if (curNode == tail) {
+					prevNode.setNext(null);
+					tail = prevNode;
+				} else {
+					prevNode.setNext(curNode.getNext());
+				}
+			}
+
+			numElements--;
+			return removedElement;
+		} else {
+			throw new IndexOutOfBoundsException("index = " + index + 
+					" is invalid for an array with only " + numElements + " elements");
+		}	
 	}
 
 	@Override
 	public void removeAll() {
-		this.head = null;
-		this.tail = null;
-		this.numElements = 0;
+		head = null;
+		tail = null;
+		numElements = 0;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder output = new StringBuilder("numElements = " + this.numElements + "\n");
+		if (numElements > 0) {
+			output.append("head --> ");
+			LinkedListNode<E> curNode = head;
+			while (curNode != null) {
+				if (curNode != tail) {
+					output.append(curNode.getElement()).append(" --> ");
+				} else {
+					output.append(curNode.getElement());
+				}
+				curNode = curNode.getNext();
+			}
+			output.append("\n" + "tail --> ").append(tail.getElement()).append("\n\n");
+		}
+		return output.toString();
+	}
+
+	
+	public static void main(String[] args) {
+		LinkedList<Integer> ll = new LinkedList<>();
+		
+		for ( int i = 1 ; i < 12 ; i += 2) {
+			ll.add(i);
+		}
+	
+		System.out.println(ll);
+
+		ll.add(6, 3);
+		
+		System.out.println(ll);
+
+		ll.add(4, 2);
+		
+		System.out.println(ll);
+
+		ll.add(13, 8);
+		
+		System.out.println(ll);
+	
+		Integer removedElement = ll.remove(5);
+		
+		System.out.println(ll);
+
+		System.out.println("Removed Element = " + removedElement + "\n\n");
+		
+		removedElement = ll.remove(7);
+		
+		System.out.println(ll);
+
+		System.out.println("Removed Element = " + removedElement + "\n\n");
+		
+		ll.add(-5, 0);
+		
+		System.out.println(ll);
+		
+		removedElement = ll.remove(0);
+		
+		System.out.println(ll);
+
+		System.out.println("Removed Element = " + removedElement + "\n\n");
+	}
 }
